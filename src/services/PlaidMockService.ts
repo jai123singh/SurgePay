@@ -15,9 +15,27 @@ export function parseBankSelection(input: string): string | null {
     const normalized = input.trim().toLowerCase();
     const bankKeys = Object.keys(MOCK_BANKS);
 
+    // check for number selection (1, 2, 3)
     const num = parseInt(normalized, 10);
     if (!isNaN(num) && num >= 1 && num <= 3) {
         return bankKeys[num - 1];
+    }
+
+    // map of aliases/button IDs to bank keys
+    const aliases: Record<string, string> = {
+        'boa': 'bofa',
+        'bank of america': 'bofa',
+        'bofa': 'bofa',
+        'chase': 'chase',
+        'chase bank': 'chase',
+        'wells': 'wells',
+        'wells fargo': 'wells',
+        'wf': 'wells'
+    };
+
+    // check for exact alias match first
+    if (aliases[normalized]) {
+        return aliases[normalized];
     }
 
     // check if input contains bank key or name

@@ -118,11 +118,11 @@ export const PayActionSchema = z.string()
         'Reply PAY or CANCEL.'
     );
 
-// payment method: 1, 2, UPI, or BANK
+// payment method: 1, 2, UPI, BANK, or BANK_ACCOUNT (from button)
 export const PaymentMethodSchema = z.string()
     .transform((val: string) => val.toUpperCase().trim())
     .refine(
-        (val: string) => ['1', '2', 'UPI', 'BANK'].includes(val),
+        (val: string) => ['1', '2', 'UPI', 'BANK', 'BANK_ACCOUNT'].includes(val),
         'Reply 1 for UPI or 2 for Bank.'
     );
 

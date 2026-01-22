@@ -111,7 +111,13 @@ export async function sendWhatsAppMessage(
 export function parseIncomingMessage(
   body: TwilioWebhookPayload,
 ): ParsedMessage {
-  const from = body.From.replace("whatsapp:", "");
+  // extract phone number, removing 'whatsapp:' prefix and any whitespace
+  let from = body.From.replace("whatsapp:", "").trim();
+
+  // ensure phone number has + prefix (required by Twilio)
+  if (!from.startsWith("+")) {
+    from = "+" + from;
+  }
 
   // use ButtonPayload or ButtonText if present, otherwise use Body
   let message = body.Body.trim();
